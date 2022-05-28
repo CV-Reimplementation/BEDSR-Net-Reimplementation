@@ -1,0 +1,14 @@
+batch_size: 32
+beta1: 0.5
+beta2: 0.999
+dataset_name: Jung
+height: 256
+lambda1: 1.0
+lambda2: 0.01
+learning_rate: 0.003
+loss_function_name: L1
+max_epoch: 50
+model: 'bedsrnet  '
+num_workers: 2
+pretrained: true
+width: 256
