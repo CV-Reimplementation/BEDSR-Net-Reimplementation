@@ -9,6 +9,11 @@ A refined version of [IsHYuhi's implementation](https://github.com/IsHYuhi/BEDSR
 2. gradcam uses too much vram
 3. provide default correct training config 
 
+## create environment
+```bash
+conda env create --name bedsr --file env.yml
+```
+
 ## Training
 
 Training BE-Net
