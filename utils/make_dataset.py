@@ -66,5 +66,5 @@ df['img'] = img_paths
 df['gt'] = gt_paths
 df['B'], df['G'], df['R'] = background_colors[0], background_colors[1], background_colors[2]
 
-df.to_csv('./csv/'+phase+'.csv')
+df.to_csv('../csv/'+phase+'.csv')
 
