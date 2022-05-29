@@ -7,6 +7,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
+from tqdm import tqdm
 
 from .meter import AverageMeter, ProgressMeter
 
@@ -84,7 +85,7 @@ def train(
     model.train()
 
     end = time.time()
-    for i, sample in enumerate(loader):
+    for i, sample in enumerate(tqdm(loader)):
         # measure data loading time
         data_time.update(time.time() - end)
 
@@ -122,7 +123,7 @@ def evaluate(
     model.eval()
 
     with torch.no_grad():
-        for sample in loader:
+        for sample in tqdm(loader):
             batch_size, loss, gt, pred = do_one_iteration(
                 sample, model, criterion, device, "evaluate"
             )
