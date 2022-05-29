@@ -11,7 +11,7 @@ A refined version of [IsHYuhi's implementation](https://github.com/IsHYuhi/BEDSR
 
 ## create environment
 ```bash
-conda env create --name bedsr --file env.yml
+conda create --name bedsrnet --file requirements.txt
 ```
 
 ## Training
