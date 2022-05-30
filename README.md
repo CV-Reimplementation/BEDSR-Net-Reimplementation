@@ -28,3 +28,12 @@ python3 train_bedsrnet.py ./configs/model\=bedsrnet/config.yaml
 
 You can use W&B by ```--use_wandb```.
 
+## Infer
+
+mask sure put all your model state_dict into pretrained directory
+
+```python
+python infer.py
+```
+
+result images will be produced in results folder
