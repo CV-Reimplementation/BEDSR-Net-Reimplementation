@@ -2,19 +2,22 @@ import time
 from logging import getLogger
 from typing import Any, Dict, List, Optional, Tuple
 
+import cv2
 import numpy as np
 import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.autograd import Variable
 from torch.utils.data import DataLoader
+from torchvision.utils import save_image
 
 from .meter import AverageMeter, ProgressMeter
 from .metric import calc_psnr, calc_ssim
-from .visualize_grid import make_grid
+from .visualize_grid import make_grid, unnormalize
 
 from pytorch_grad_cam import GradCAM
 from tqdm import tqdm
+import os
 
 __all__ = ["train", "evaluate"]
 
@@ -29,6 +32,7 @@ def set_requires_grad(nets, requires_grad=False):
 
 
 def do_one_iteration(
+    infer: bool,
     sample: Dict[str, Any],
     generator: nn.Module,
     discriminator: nn.Module,
@@ -72,6 +76,7 @@ def do_one_iteration(
     x = sample["img"].to(device)
     gt = sample["gt"].to(device)
 
+
     batch_size, c, h, w = x.shape
 
     # compute output and loss
@@ -84,10 +89,12 @@ def do_one_iteration(
         cams = []
         back_grounds = []
         for i in range(batch_size):
+            # color, cam, _ = benet(x[i].unsqueeze(dim=0))
             color = benet(x[i].unsqueeze(dim=0))
             cam = torch.from_numpy(grad_cam(x[i].unsqueeze(dim=0))).unsqueeze(dim=0)
             cam = (cam - 0.5) / 0.5  # clamp [-1.0, 1.0]
             cam = torch.nan_to_num(cam, nan=0.0)
+            cams.append(cam.detach())
             back_color = color.detach().repeat_interleave(h*w).reshape(c, h, w)
             back_grounds.append(back_color.unsqueeze(0))
 
@@ -109,6 +116,8 @@ def do_one_iteration(
 
     label_D_fake = Variable(Tensor(np.zeros(out_D_fake.size())), requires_grad=True)
     label_D_real = Variable(Tensor(np.ones(out_D_fake.size())), requires_grad=True)
+
+    
 
     loss_D_fake = criterion[1](out_D_fake, label_D_fake)
     loss_D_real = criterion[1](out_D_real, label_D_real)
@@ -141,8 +150,18 @@ def do_one_iteration(
     x = x.detach().to("cpu").numpy()
     gt = gt.detach().to("cpu").numpy()
     pred = shadow_removal_image.detach().to("cpu").numpy()
+    
+    if infer:
+        name = sample['img_path'][0].split('/')[-1]
+        image = (unnormalize(pred[0]) * 255).astype('uint8')
+        cv2.imwrite(os.path.join('results', name), image)
+        
     attention_map = attention_map.detach().to("cpu").numpy()
     back_ground = back_ground.detach().to("cpu").numpy()
+    out_D_fake.detach()
+    out_D_real.detach()
+    label_D_fake.detach()
+    label_D_real.detach()
 
     psnr_score = calc_psnr(list(gt), list(pred))
     ssim_score = calc_ssim(list(gt), list(pred))
@@ -199,7 +218,6 @@ def train(
     generator.train()
     discriminator.train()
 
-    # this grad_cam reduces vram usage
     target_layers = [benet.features[3]]
     grad_cam = GradCAM(model=benet, target_layers=target_layers, use_cuda=True)
 
@@ -220,6 +238,7 @@ def train(
             psnr_score,
             ssim_score,
         ) = do_one_iteration(
+            False,
             sample,
             generator,
             discriminator,
@@ -239,8 +258,7 @@ def train(
         ssim_scores.update(ssim_score, batch_size)
 
         # save the ground truths and predictions in lists
-        # save memory for large dataset
-        if len(inputs) < 10:
+        if len(inputs) <= 10:
             inputs += list(input)
             gts += list(gt)
             preds += list(pred)
@@ -310,6 +328,7 @@ def evaluate(
                 psnr_score,
                 ssim_score,
             ) = do_one_iteration(
+                False,
                 sample,
                 generator,
                 discriminator,
@@ -327,7 +346,7 @@ def evaluate(
             ssim_scores.update(ssim_score, batch_size)
 
             # save the ground truths and predictions in lists
-            if len(inputs) < 10:
+            if len(inputs) <= 10:
                 inputs += list(input)
                 gts += list(gt)
                 preds += list(pred)
@@ -345,3 +364,35 @@ def evaluate(
         ssim_scores.get_average(),
         result_images,
     )
+
+def infer(
+    loader: DataLoader,
+    generator: nn.Module,
+    discriminator: nn.Module,
+    benet: nn.Module,
+    criterion: Any,
+    lambda_dict: Dict,
+    device: str,
+):
+
+    # switch to evaluate mode
+    generator.eval()
+    discriminator.eval()
+
+    target_layers = [benet.features[3]]
+    grad_cam = GradCAM(model=benet, target_layers=target_layers, use_cuda=True)
+
+    with torch.no_grad():
+        for sample in tqdm(loader):
+            do_one_iteration(
+                True,
+                sample,
+                generator,
+                discriminator,
+                benet,
+                grad_cam,
+                criterion,
+                device,
+                "evaluate",
+                lambda_dict,
+            )
