@@ -8,6 +8,7 @@ A refined version of [IsHYuhi's implementation](https://github.com/IsHYuhi/BEDSR
 1. nn.ConvTranspose2d compatible with higher version of Pytorch
 2. gradcam uses too much vram
 3. provide default correct training config 
+4. provide easy inference code
 
 ## create environment
 ```bash
