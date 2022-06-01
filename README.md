@@ -4,7 +4,7 @@ This repository is unofficial implementation of [BEDSR-Net: A Deep Shadow Remova
 
 A refined version of [IsHYuhi's implementation](https://github.com/IsHYuhi/BEDSR-Net_A_Deep_Shadow_Removal_Network_from_a_Single_Document_Image).
 
-## Fix 3 problems
+## Fix several problems
 1. nn.ConvTranspose2d compatible with higher version of Pytorch
 2. gradcam uses too much vram
 3. provide default correct training config 
