@@ -13,6 +13,38 @@ A refined version of [IsHYuhi's implementation](https://github.com/IsHYuhi/BEDSR
 ## Dependencies
 Pytorch, torchvision, matplotlib, wandb, albumentations, pytorch-grad-cam
 
+## Dataset Structure
+
+The dataset should be formatted like below, train.csv and test.csv can be generated using 
+
+```python
+python make_dataset.py
+```
+```
+.
+├── csv/
+│   └── Jung/
+│       ├── train.csv
+│       └── test.csv
+└── dataset/
+    └── Jung/
+        ├── train/
+        │   ├── input/
+        │   │   ├── *.jpg
+        │   │   └── ...
+        │   └── target/
+        │       ├── *.jpg
+        │       └── ...
+        └── test/
+            ├── input/
+            │   ├── *.jpg
+            │   └── ...
+            └── target/
+                ├── *.jpg
+                └── ...
+```
+
+
 ## Training
 
 Training BE-Net
