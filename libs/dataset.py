@@ -85,7 +85,7 @@ class BackGroundDataset(Dataset):
         return len(self.df)
 
     def __getitem__(self, idx: int) -> Dict[str, Any]:
-        img_path = self.df.iloc[idx]["img"]
+        img_path = self.df.iloc[idx]["input"]
 
         img = cv2.imread(img_path)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
@@ -123,8 +123,8 @@ class ShadowDocumentDataset(Dataset):
         return len(self.df)
 
     def __getitem__(self, idx: int) -> Dict[str, Any]:
-        img_path = self.df.iloc[idx]["img"]
-        gt_path = self.df.iloc[idx]["gt"]
+        img_path = self.df.iloc[idx]["input"]
+        gt_path = self.df.iloc[idx]["target"]
 
         img = cv2.imread(img_path)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)

@@ -122,7 +122,7 @@ def main() -> None:
     val_loader = get_dataloader(
         config.dataset_name,
         config.model,
-        "val",
+        "test",
         batch_size=1,
         shuffle=False,
         num_workers=config.num_workers,

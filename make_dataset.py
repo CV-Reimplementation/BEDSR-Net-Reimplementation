@@ -13,8 +13,9 @@ def get_average_color(x):
 
 df = pd.DataFrame()
 phase = 'test'
-img_path = '../dataset/Jung/'+phase+'/img/'
-root_path = '../dataset/Jung/'+phase+'/gt/'
+dataset = 'Kligler'
+img_path = os.path.join('dataset', dataset, phase, 'input')
+root_path = os.path.join('dataset', dataset, phase, 'target')
 paths = os.listdir(root_path)
 paths.sort()
 img_paths = []
@@ -52,7 +53,7 @@ for path in paths:
         background_color = cls1_avg_color
 
     gmm_out = np.array([cls0_avg_color if i == 0 else cls1_avg_color for i in cls])
-    cv2.imwrite('../dataset/Jung/'+phase+'/gmm/gmm_{:s}.jpg'.format(path), gmm_out.reshape(h, w, c))
+    # cv2.imwrite('../dataset/Jung/'+phase+'/gmm/gmm_{:s}.jpg'.format(path), gmm_out.reshape(h, w, c))
     #cv2.imwrite('../dataset/Jung/'+phase+'/kmeans/km_{:s}.jpg'.format(path), gmm_out.reshape(h, w, c))
     #cv2.imwrite('../dataset/Jung/'+phase+'/background/background_{:s}.jpg'.format(path), np.full_like(x, background_color).reshape(h, w, c))
     #cv2.imwrite('gmm/{:s}'.format(path), cls.reshape(h, w)*255)
@@ -66,5 +67,5 @@ df['img'] = img_paths
 df['gt'] = gt_paths
 df['B'], df['G'], df['R'] = background_colors[0], background_colors[1], background_colors[2]
 
-df.to_csv('../csv/'+phase+'.csv')
+df.to_csv(os.path.join('csv', dataset, phase + '.csv'))
 
