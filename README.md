@@ -6,14 +6,12 @@ A refined version of [IsHYuhi's implementation](https://github.com/IsHYuhi/BEDSR
 
 ## Fix several problems
 1. nn.ConvTranspose2d compatible with higher version of Pytorch
-2. gradcam uses too much vram
+2. gradcam uses too much vram, use [pytorch-grad-cam](https://github.com/jacobgil/pytorch-grad-cam) instead
 3. provide default correct training config 
 4. provide easy inference code
 
-## create environment
-```bash
-conda create --name bedsrnet --file requirements.txt
-```
+## Dependencies
+Pytorch, torchvision, matplotlib, wandb, albumentations, pytorch-grad-cam
 
 ## Training
 
