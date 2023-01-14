@@ -14,11 +14,11 @@ def get_average_color(x):
     return np.array([np.mean(b), np.mean(g), np.mean(r)])
 
 df = pd.DataFrame()
-phase = 'test'
-dataset = 'Kligler'
+phase = 'train'
+dataset = 'Shadoc'
 img_path = os.path.join('dataset', dataset, phase, 'input')
 root_path = os.path.join('dataset', dataset, phase, 'target')
-paths = tqdm(os.listdir(root_path))
+paths = os.listdir(root_path)
 paths.sort()
 img_paths = []
 gt_paths = []
@@ -44,10 +44,6 @@ def process_img(path):
     cls0_avg_color = get_average_color(cls0_colors)
     cls1_avg_color = get_average_color(cls1_colors)
 
-    print(cls0_avg_color)
-    #
-    print(cls1_avg_color)
-    
 
     if np.sum(cls0_avg_color)>=np.sum(cls1_avg_color):
         background_color = cls0_avg_color
