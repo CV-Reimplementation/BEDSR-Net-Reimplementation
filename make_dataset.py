@@ -5,6 +5,7 @@ from sklearn.cluster import KMeans
 import cv2
 import pandas as pd
 import os
+import multiprocessing as mp
 
 def get_average_color(x):
     b, g, r = x[:, 0], x[:, 1], x[:, 2]
@@ -21,7 +22,8 @@ paths.sort()
 img_paths = []
 gt_paths = []
 background_colors = [[], [], []]
-for path in paths:
+
+def process_img(path):
     img_paths.append(img_path+path)
     gt_paths.append(root_path+path)
 
@@ -61,11 +63,12 @@ for path in paths:
         background_colors[i].append(background_color[i])
 
 
+if __name__ == '__main__':
+    pool = mp.Pool()
+    pool.map(process_img, paths)
+    df['img'] = img_paths
+    df['gt'] = gt_paths
+    df['B'], df['G'], df['R'] = background_colors[0], background_colors[1], background_colors[2]
 
-
-df['img'] = img_paths
-df['gt'] = gt_paths
-df['B'], df['G'], df['R'] = background_colors[0], background_colors[1], background_colors[2]
-
-df.to_csv(os.path.join('csv', dataset, phase + '.csv'))
+    df.to_csv(os.path.join('csv', dataset, phase + '.csv'))
 
