@@ -6,6 +6,7 @@ import cv2
 import pandas as pd
 import os
 import multiprocessing as mp
+from tqdm import tqdm
 
 def get_average_color(x):
     b, g, r = x[:, 0], x[:, 1], x[:, 2]
@@ -17,17 +18,17 @@ phase = 'test'
 dataset = 'Kligler'
 img_path = os.path.join('dataset', dataset, phase, 'input')
 root_path = os.path.join('dataset', dataset, phase, 'target')
-paths = os.listdir(root_path)
+paths = tqdm(os.listdir(root_path))
 paths.sort()
 img_paths = []
 gt_paths = []
 background_colors = [[], [], []]
 
 def process_img(path):
-    img_paths.append(img_path+path)
-    gt_paths.append(root_path+path)
+    img_paths.append(os.path.join(img_path, path))
+    gt_paths.append(os.path.join(root_path, path))
 
-    x = cv2.imread(root_path+path)
+    x = cv2.imread(os.path.join(root_path, path))
     h, w, c = x.shape
     x = x.flatten().reshape(h*w, c)
     gmm = mixture.GaussianMixture(n_components=2, covariance_type='full')
