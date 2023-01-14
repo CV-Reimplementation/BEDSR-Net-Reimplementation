@@ -25,9 +25,9 @@ val_transform = Compose(
 )
 
 val_loader = get_dataloader(
-    'Jung',
+    'Kligler',
     'bedsrnet',
-    "val",
+    "test",
     batch_size=1,
     shuffle=False,
     num_workers=8,
