@@ -66,11 +66,11 @@ if __name__ == '__main__':
     pool.map(process_img, paths)
 
     results = []
-    for result in tqdm(pool.imap_unordered(process_img, paths), total=len(paths))
+    for result in tqdm(pool.imap_unordered(process_img, paths), total=len(paths)):
         pass
 
     print('finish')
-    
+
     df['input'] = img_paths
     df['target'] = gt_paths
     df['B'], df['G'], df['R'] = background_colors[0], background_colors[1], background_colors[2]
