@@ -62,12 +62,18 @@ def process_img(path):
 
 
 if __name__ == '__main__':
+    pbar = tqdm(total=len(paths))
+    pbar.set_description('Sleep')
+    update = lambda *args: pbar.update()
+
     pool = mp.Pool()
     pool.map(process_img, paths)
 
-    results = []
-    for result in tqdm(pool.imap_unordered(process_img, paths), total=len(paths)):
-        pass
+    for path in paths:
+        pool.apply_async(process_img, (path,), callback=update)
+    
+    pool.close()
+    pool.join()
 
     print('finish')
 
