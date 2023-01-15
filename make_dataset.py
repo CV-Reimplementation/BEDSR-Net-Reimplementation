@@ -58,11 +58,19 @@ def process_img(path):
     #cv2.imwrite('gmm/{:s}'.format(path), cls.reshape(h, w)*255)
     for i in range(3):
         background_colors[i].append(background_color[i])
+    
 
 
 if __name__ == '__main__':
     pool = mp.Pool()
     pool.map(process_img, paths)
+
+    results = []
+    for result in tqdm(pool.imap_unordered(process_img, paths), total=len(paths))
+        pass
+
+    print('finish')
+    
     df['input'] = img_paths
     df['target'] = gt_paths
     df['B'], df['G'], df['R'] = background_colors[0], background_colors[1], background_colors[2]
