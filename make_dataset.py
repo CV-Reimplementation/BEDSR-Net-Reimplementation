@@ -62,20 +62,9 @@ def process_img(path):
 
 
 if __name__ == '__main__':
-    pbar = tqdm(total=len(paths))
-    pbar.set_description('Sleep')
-    update = lambda *args: pbar.update()
 
-    pool = mp.Pool()
-    pool.map(process_img, paths)
-
-    for path in paths:
-        pool.apply_async(process_img, (path,), callback=update)
-    
-    pool.close()
-    pool.join()
-
-    print('finish')
+    for path in tqdm(paths):
+        process_img(path)
 
     df['input'] = img_paths
     df['target'] = gt_paths
