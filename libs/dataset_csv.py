@@ -22,4 +22,8 @@ DATASET_CSVS = {
         train="./csv/Kligler/train.csv",
         test="./csv/Kligler/test.csv",
     ),
+    "Shadoc": DatasetCSV(
+        train="./csv/Shadoc/train.csv",
+        test="./csv/Shadoc/test.csv",
+    ),
 }
