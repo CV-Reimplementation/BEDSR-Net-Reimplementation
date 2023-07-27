@@ -56,7 +56,7 @@ class TrainLogger(object):
             index=self.columns,
         )
 
-        self.df = self.df.append(tmp, ignore_index=True)
+        self.df = pd.concat([self.df, tmp])
         self._save_log()
 
         logger.info(
@@ -137,7 +137,7 @@ class TrainLoggerBEDSRNet(object):
             index=self.columns,
         )
 
-        self.df = self.df.append(tmp, ignore_index=True)
+        self.df = pd.concat([self.df, tmp])
         self._save_log()
 
         logger.info(

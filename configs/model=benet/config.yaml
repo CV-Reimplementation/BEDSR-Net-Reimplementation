@@ -1,7 +1,7 @@
 batch_size: 1
 beta1: 0.5
 beta2: 0.999
-dataset_name: Kligler
+dataset_name: Adobe
 height: 512
 lambda1: 1.0
 lambda2: 0.01

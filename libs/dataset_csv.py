@@ -26,4 +26,16 @@ DATASET_CSVS = {
         train="./csv/Shadoc/train.csv",
         test="./csv/Shadoc/test.csv",
     ),
+    "Adobe": DatasetCSV(
+        train="./csv/Adobe/train.csv",
+        test="./csv/Adobe/test.csv",
+    ),
+    "Shadoc": DatasetCSV(
+        train="./csv/Shadoc/train.csv",
+        test="./csv/Shadoc/test.csv",
+    ),
+    "Shadoc": DatasetCSV(
+        train="./csv/Shadoc/train.csv",
+        test="./csv/Shadoc/test.csv",
+    ),
 }
