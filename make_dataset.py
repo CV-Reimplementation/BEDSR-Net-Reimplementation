@@ -69,6 +69,6 @@ if __name__ == '__main__':
     df['input'] = img_paths
     df['target'] = gt_paths
     df['B'], df['G'], df['R'] = background_colors[0], background_colors[1], background_colors[2]
-
+    os.makedirs(os.path.join('csv', dataset), exist_ok=True)
     df.to_csv(os.path.join('csv', dataset, phase + '.csv'))
 

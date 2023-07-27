@@ -38,7 +38,7 @@ def get_arguments() -> argparse.Namespace:
         train a network for image classification with Flowers Recognition Dataset.
         """
     )
-    parser.add_argument("config", type=str, help="path of a config file")
+    parser.add_argument("config", type=str, help="path of a config file", default='./configs/model=bedsrnet/config.yaml')
     parser.add_argument(
         "--resume",
         action="store_true",
