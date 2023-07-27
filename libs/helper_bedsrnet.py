@@ -117,8 +117,6 @@ def do_one_iteration(
     label_D_fake = Variable(Tensor(np.zeros(out_D_fake.size())), requires_grad=True)
     label_D_real = Variable(Tensor(np.ones(out_D_fake.size())), requires_grad=True)
 
-    
-
     loss_D_fake = criterion[1](out_D_fake, label_D_fake)
     loss_D_real = criterion[1](out_D_real, label_D_real)
 

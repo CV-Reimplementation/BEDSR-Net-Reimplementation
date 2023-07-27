@@ -27,7 +27,8 @@ def calc_ssim(gts: List[np.ndarray], preds: List[np.ndarray]) -> float:
             ssim(
                 gt.transpose([1, 2, 0]) * 0.5 + 0.5,
                 pred.transpose([1, 2, 0]) * 0.5 + 0.5,
-                multichannel=True,
+                channel_axis=2,
+                data_range=1,
             ),
         )
 
