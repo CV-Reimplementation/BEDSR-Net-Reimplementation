@@ -250,7 +250,7 @@ def benet(pretrained: bool = False, **kwargs: Any) -> BENet:
 def cam_benet(pretrained: bool = False, **kwargs: Any) -> GradCAM:
     model = BENet(**kwargs)
     if pretrained:
-        state_dict = torch.load("./pretrained/pretrained_benet.prm")  # map_location
+        state_dict = torch.load("./configs/model=benet/pretrained_benet.prm")  # map_location
         model.load_state_dict(fix_model_state_dict(state_dict))
     model.eval()
     target_layer = model.features[3]
@@ -261,7 +261,7 @@ def cam_benet(pretrained: bool = False, **kwargs: Any) -> GradCAM:
 def generator(pretrained: bool = False, **kwargs: Any) -> Generator:
     model = Generator(**kwargs)
     if pretrained:
-        state_dict = torch.load("./pretrained/pretrained_g_srnet.prm")
+        state_dict = torch.load("./configs/model=bedsrnet/pretrained_g_srnet.prm")
         model.load_state_dict(fix_model_state_dict(state_dict))
     return model
 
@@ -269,6 +269,6 @@ def generator(pretrained: bool = False, **kwargs: Any) -> Generator:
 def discriminator(pretrained: bool = False, **kwargs: Any) -> Discriminator:
     model = Discriminator(**kwargs)
     if pretrained:
-        state_dict = torch.load("./pretrained/pretrained_d_srnet.prm")
+        state_dict = torch.load("./configs/model=bedsrnet/pretrained_d_srnet.prm")
         model.load_state_dict(fix_model_state_dict(state_dict))
     return model

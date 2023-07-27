@@ -14,8 +14,8 @@ def get_average_color(x):
     return np.array([np.mean(b), np.mean(g), np.mean(r)])
 
 df = pd.DataFrame()
-phase = 'test'
-dataset = 'Adobe'
+phase = 'train'
+dataset = 'Jung'
 img_path = os.path.join('dataset', dataset, phase, 'input')
 root_path = os.path.join('dataset', dataset, phase, 'target')
 paths = os.listdir(root_path)

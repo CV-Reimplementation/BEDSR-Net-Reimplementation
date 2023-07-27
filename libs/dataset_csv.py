@@ -30,9 +30,9 @@ DATASET_CSVS = {
         train="./csv/Adobe/train.csv",
         test="./csv/Adobe/test.csv",
     ),
-    "Shadoc": DatasetCSV(
-        train="./csv/Shadoc/train.csv",
-        test="./csv/Shadoc/test.csv",
+    "HS": DatasetCSV(
+        train="./csv/HS/train.csv",
+        test="./csv/HS/test.csv",
     ),
     "Shadoc": DatasetCSV(
         train="./csv/Shadoc/train.csv",
