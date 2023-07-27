@@ -242,7 +242,7 @@ class Discriminator(nn.Module):
 def benet(pretrained: bool = False, **kwargs: Any) -> BENet:
     model = BENet(**kwargs)
     if pretrained:
-        state_dict = torch.load("./pretrained/pretrained_benet.prm")  # map_location
+        state_dict = torch.load("./configs/model=benet/pretrained_benet.prm")  # map_location
         model.load_state_dict(fix_model_state_dict(state_dict))
     return model
 
