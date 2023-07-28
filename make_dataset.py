@@ -15,7 +15,7 @@ def get_average_color(x):
 
 df = pd.DataFrame()
 phase = 'train'
-dataset = 'Kligler'
+dataset = 'RDD'
 img_path = os.path.join('dataset', dataset, phase, 'input')
 root_path = os.path.join('dataset', dataset, phase, 'target')
 paths = os.listdir(root_path)

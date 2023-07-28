@@ -150,7 +150,7 @@ def do_one_iteration(
     pred = shadow_removal_image.detach().to("cpu").numpy()
     
     if infer:
-        name = sample['img_path'][0].split('/')[-1]
+        name = os.path.basename(sample['img_path'][0])
         image = (unnormalize(pred[0]) * 255).astype('uint8')
         cv2.imwrite(os.path.join('results', name), image)
         
